@@ -36,6 +36,7 @@ def load_user(user_id: str):
 def add_user(room_id: int):
     user = User(str(uuid.uuid4()), room_id)
     kv_db.set(user.id, str(user))
+    return user
 
 
 def del_user(user_id: str):
