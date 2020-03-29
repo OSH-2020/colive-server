@@ -2,9 +2,11 @@ from flask import Flask
 
 
 class AppConfig:
+    DEBUG: bool = True
     SECRET_KEY: str = 'dev'
     DB_URI: str = 'sqlite:////tmp/colive.sqlite3'
     SQLALCHEMY_DATABASE_URI = DB_URI
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     REDIS_URI: str = 'redis://user:password@localhost:6379'
 
     def check(self):

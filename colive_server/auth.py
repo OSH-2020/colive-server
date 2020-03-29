@@ -18,7 +18,7 @@ class User(UserMixin):
 
     def __str__(self):
         return json.dumps({
-            'id': self.id,
+            'user_id': self.id,
             'room_id': self.room_id,
         })
 
