@@ -4,6 +4,21 @@ Server side of colive.
 
 `colive` is a text live-sharing system to easy editing.
 
+## Usage
+
+The interaction in colive is based on `socket.io`.
+
+### Auth
+
+Any client connected to the server with socket.io should auth to login,
+or any other action will cause the server to disconnect.
+
+To login, the client should provide the room name, username and respective secret like:
+
+```js
+emit('login', { room: 'room name', username: 'username', secret: 'room secret' });
+```
+
 ## License
 
 GPL 3.0 or late.
