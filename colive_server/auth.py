@@ -12,15 +12,21 @@ login_manager.init_app(app)
 
 
 class User(UserMixin):
-    def __init__(self, user_id: str, room_id: int):
+    def __init__(self, user_id: str, room_id: int, admin: bool):
         self.id = user_id
         self.room_id = room_id
+        self.admin = admin
 
     def __str__(self):
         return json.dumps({
             'user_id': self.id,
             'room_id': self.room_id,
+            'admin': self.admin,
         })
+
+    @property
+    def is_admin(self):
+        return self.admin
 
     @classmethod
     def from_str(cls, obj_str: str):
@@ -34,7 +40,7 @@ def load_user(user_id: str):
 
 
 def add_user(room_id: int):
-    user = User(str(uuid.uuid4()), room_id)
+    user = User(str(uuid.uuid4()), room_id, admin=False)
     kv_db.set(user.id, str(user))
     return user
 

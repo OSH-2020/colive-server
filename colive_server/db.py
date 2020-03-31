@@ -14,3 +14,6 @@ class Room(db.Model):
         super().__init__()
         self.id = room_id
         self.secret = generate_password_hash(secret)
+
+    def __unicode__(self):
+        return str(self.id)
