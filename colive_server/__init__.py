@@ -1,2 +1,2 @@
 from . import app
-from . import apis
+from . import apis, cli

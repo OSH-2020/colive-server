@@ -6,8 +6,6 @@ class AppConfig:
     SECRET_KEY: str = 'dev'
 
     DB_URI: str = 'sqlite:////tmp/colive.sqlite3'
-    CREATE_TABLES: bool = True
-    DROP_TABLES_BEFORE = DEBUG
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

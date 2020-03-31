@@ -14,9 +14,3 @@ class Room(db.Model):
         super().__init__()
         self.id = room_id
         self.secret = generate_password_hash(secret)
-
-
-if app.config['DROP_TABLES_BEFORE']:
-    db.drop_all()
-if app.config['CREATE_TABLES']:
-    db.create_all()
