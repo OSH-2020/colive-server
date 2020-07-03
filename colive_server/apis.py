@@ -41,7 +41,7 @@ def broadcast_handler(msg):
 
 @socketio.on('disconnect')
 def disconnect_handler():
-    if not current_user.is_anonymous():
+    if not current_user.is_anonymous:
         info = {'user_id': int(current_user.id)}
         leave_room(current_user.room_id)
         logout_user()
