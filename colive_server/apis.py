@@ -1,4 +1,4 @@
-from flask_socketio import SocketIO, send, ConnectionRefusedError, join_room, leave_room
+from flask_socketio import SocketIO, send, emit, ConnectionRefusedError, join_room, leave_room
 from flask_bcrypt import check_password_hash
 from flask_login import login_user, logout_user, current_user
 
@@ -21,6 +21,7 @@ def login_handler(msg):
         user = add_user(room_id)
         login_user(user)
         join_room(room_id)
+        emit('login', {'user_id': current_user.id}, broadcast=False)
     else:
         raise ConnectionRefusedError(1, 'Unauthorized.')
 
@@ -41,6 +42,8 @@ def broadcast_handler(msg):
 @socketio.on('disconnect')
 def disconnect_handler():
     if not current_user.is_anonymous():
+        info = {'user_id': int(current_user.id)}
         leave_room(current_user.room_id)
         logout_user()
         del_user(current_user.id)
+        emit('logout', info, broadcast=True, include_self=False)
