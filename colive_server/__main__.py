@@ -1,4 +1,5 @@
-from . import app, conf
+from . import conf
+from .app import app
 
 if __name__ == '__main__':
-    app.run(port=conf.PORT)
+    app.run(host='0.0.0.0', port=conf.PORT)

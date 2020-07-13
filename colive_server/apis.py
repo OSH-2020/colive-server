@@ -2,28 +2,32 @@ from flask_socketio import SocketIO, emit, ConnectionRefusedError, join_room, le
 from flask_bcrypt import check_password_hash
 from flask_login import login_user, logout_user, current_user
 
-from . import app
+from .app import app
 from .db import db, Room, User
 
 socketio = SocketIO(app)
 
 
 @socketio.on('login')
-def login_handler(msg):
-    room_id = msg['room_id']
-    password = str(msg['password'])
-    addr = str(msg['addr'])
+def login_handler(data: dict):
+    room_id = data.pop('room_id', 0)
+    password = str(data.pop('password', ''))
+    addr = str(data.pop('addr', ''))
     if not validate_room_id(room_id):
         raise ConnectionRefusedError(1, 'Unauthorized')
 
     room = Room.query.get(room_id)
     if room and check_password_hash(room.password, password):
         user = User(addr=addr, room=room)
+        db.session.add(user)
+        db.session.commit()
         login_user(user)
         join_room(room_id)
+        print([u.addr for u in room.users if u.id != user.id])
         emit('login', {
             'user_id': current_user.id,
             'addr_set': [u.addr for u in room.users if u.id != user.id],
+            **data,
         }, broadcast=False)
     else:
         raise ConnectionRefusedError(1, 'Unauthorized')

@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
 
-from . import app
+from .app import app
 
 db = SQLAlchemy(app)
 

@@ -2,7 +2,7 @@ import functools
 
 from flask_login import LoginManager, current_user
 
-from . import app
+from .app import app
 from .db import User
 
 login_manager = LoginManager()

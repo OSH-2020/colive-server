@@ -1,7 +1,7 @@
 import click
 from flask.cli import AppGroup
 
-from . import app
+from .app import app
 from .db import db, Room
 
 db_cli = AppGroup('db')
