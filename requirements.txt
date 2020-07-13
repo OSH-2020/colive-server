@@ -3,8 +3,6 @@ flask-socketio
 flask-sqlalchemy
 flask-login
 flask-bcrypt
-redis
-flask-admin
 
 # Test
 pytest
