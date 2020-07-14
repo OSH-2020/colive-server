@@ -1,8 +1,9 @@
-from flask_socketio import SocketIO, emit, ConnectionRefusedError, join_room, leave_room
+from flask_socketio import SocketIO, emit, send, ConnectionRefusedError, join_room, leave_room
 from flask_bcrypt import check_password_hash
 from flask_login import login_user, logout_user, current_user
 
 from .app import app
+from .auth import socket_login_required
 from .db import db, Room, User
 
 socketio = SocketIO(app)
@@ -38,6 +39,12 @@ def validate_room_id(room_id: int) -> bool:
         return True
     else:
         return False
+
+
+@socketio.on('message')
+@socket_login_required
+def broadcast_handler(msg):
+    send(msg, broadcast=True, include_self=False, room=current_user.room.id)
 
 
 @socketio.on('disconnect')
